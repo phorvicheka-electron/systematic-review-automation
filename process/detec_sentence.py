@@ -37,10 +37,11 @@ def create_model():
 
     return sd_model
 
+global model
+model = create_model()
 
 # 문장 토큰화
 def get_sentences(text):
-    model = create_model()
     sentence_list = []
 
     for anno in model.fullAnnotate(text)[0]["sentences"]:
@@ -53,7 +54,6 @@ def get_sentences(text):
 # 문장 토큰화 프로세스
 def extract_sentence(file, text):
     common.log.debug('detect sentence')
-
     sentence_list = get_sentences(text)
 
     txt_file = file[:-5] + "_sentence.txt"
@@ -61,7 +61,9 @@ def extract_sentence(file, text):
     np.savetxt(save_file, sentence_list, fmt='%s')
     save_file.close()
 
-    return txt_file, '\n'.join(sentence_list)
+    return '\n'.join(sentence_list)
+
+
 
 
 

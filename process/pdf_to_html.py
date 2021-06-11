@@ -3,11 +3,11 @@ import pdfbox
 from common import log
 
 
-def convert_pdf_to_html(file_path):
+def convert_pdf_to_html(file):
     log.debug("convert pdf to html")
     p = pdfbox.PDFBox()
-    p.extract_text(file_path, html=True)
-    path = file_path.split('.pdf')
+    p.extract_text(file, html=True)
+    path = file.split('.pdf')
 
     return path[0]+".html"
 
@@ -25,5 +25,4 @@ def convert_pdf_to_html(file_path):
 #             path = path.split('.pdf')
 #             pdf_list.append(path[0]+".html")
 #
-#     #WindowClass().set_log("안료")
 #     return pdf_list[0]

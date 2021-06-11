@@ -59,8 +59,6 @@ def convert_html_to_text(html_file):
     np.savetxt(save_file, sentences, fmt='%s')
     save_file.close()
 
-    log.debug("save")
-
     return txt_file
 
 def remove_html_tag(raw_html):

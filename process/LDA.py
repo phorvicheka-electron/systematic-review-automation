@@ -12,13 +12,16 @@ nltk.download('stopwords')
 nltk.download('wordnet')
 stop_words = set(stopwords.words('english'))
 
+print_lda_process = []
+
 # 단어 토큰화
 def word_tokenize(text):
     word_tokens = nltk.word_tokenize(text)
-    print("* tokenized:")
-    print(word_tokens)
-    return word_tokens
 
+    # print("* tokenized:")
+    # print(word_tokens)
+
+    return word_tokens
 
 # 불용어 제거
 def stopword(words):
@@ -26,8 +29,10 @@ def stopword(words):
     for w in words:
         if w not in stop_words:
             new_words.append(w)
-    print("* stop:")
-    print(new_words)
+
+    # print("* stop:")
+    # print(new_words)
+
     return new_words
 
 
@@ -36,49 +41,88 @@ def lemmatization(words):
     n = WordNetLemmatizer()
     new_lemms = [n.lemmatize(w, pos='v') for w in words]
 
-    print("* lemmatized:")
-    print(new_lemms)
+    # print("* lemmatized:")
+    # print(new_lemms)
 
     return new_lemms
 
 
+def add_contour_text(text):
+    print_lda_process.append("-------------------------------------------------------------")
+    print_lda_process.append(text)
+
+
+def add_text(text):
+    print_lda_process.append(text)
+
+
+
 # 텍스트 전처리
-def text_preprocessing(file):
+def text_preprocessing(file_list):
+    multiple_doc = [] # 전체 파일
+    count = 1
+    for file in file_list:
+        if file.endswith('_sentence.txt'):
 
-    full_doc = []
-    lines = read_file_lines(file)
+            add_contour_text("Text preprocessing start!")
+            add_contour_text("* txt file name [{0}] : {1}".format(count, file))
 
-    for each_line in lines:
-        print("-------------------------------------------------------------")
-        print("* origin:")
-        print(each_line)
+            # print("----------------------------------------------------")
+            # print("Text preprocessing start!")
+            # print("----------------------------------------------------")
+            # print("* txt file name [{0}] : {1}".format(count, file))
 
-        # 단어 토큰화
-        word_tokens = word_tokenize(each_line)
+            full_doc = [] # 파일 하나
+            lines = read_file_lines(file)
 
-        # 불용어 제거
-        words = stopword(word_tokens)
+            for each_line in lines:
+                # print("-------------------------------------------------------------")
+                # print("* origin:")
+                # print(each_line)
 
-        # 표제어 추출
-        new_lemms = lemmatization(words)
+                add_contour_text("* origin:")
+                add_text(each_line)
 
-        # 역토큰화
-        full_sentence = ' '.join(new_lemms)
+                # 단어 토큰화
+                word_tokens = word_tokenize(each_line)
+                add_text("* tokenized:")
+                add_text("[" + ', '.join(word_tokens) + "]")
 
-        print("* Full sentence:")
-        print(full_sentence)
+                # 불용어 제거
+                new_words = stopword(word_tokens)
+                add_text("* stop:")
+                add_text("[" + ', '.join(new_words) + "]")
 
-        full_doc.append(full_sentence)
+                # 표제어 추출
+                new_lemms = lemmatization(new_words)
+                add_text("* lemmatized:")
+                add_text("[" + ', '.join(new_lemms) + "]")
 
-    return full_doc
+                # 역토큰화
+                full_sentence = ' '.join(new_lemms)
+                add_text("* Full sentence:")
+                add_text(full_sentence)
 
+                # print("* Full sentence:")
+                # print(full_sentence)
+
+                full_doc.append(full_sentence)
+
+            multiple_doc = multiple_doc + full_doc
+            count += 1
+
+    add_contour_text("Final document")
+    add_contour_text(' '.join(multiple_doc))
+    add_contour_text("Final document //")
+
+    return multiple_doc
 
 
 # 참고1 : https://wikidocs.net/40710 (LDA 코드)
 # 참고2 : https://wikidocs.net/30708 (LDA 개념)
 # 참고2 : https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.LatentDirichletAllocation.html
-def do_lda(multiple_doc, max_features, n_components, n_words):
-    log.debug('do LDA')
+def lda(multiple_doc, max_features, n_components):
+    add_contour_text("LDA Processing...")
     # TF-IDF 행렬 만들기
     vectorizer = TfidfVectorizer(stop_words='english',
                                  max_features=max_features)  # 상위 1,000개의 단어 보존
@@ -86,7 +130,7 @@ def do_lda(multiple_doc, max_features, n_components, n_words):
 
     X = vectorizer.fit_transform(multiple_doc)
     var = X.shape
-    print("* TF-IDF matrix : " + str(var)) # TF-IDF 행렬의 크기 확인
+    # print("* TF-IDF matrix : " + str(var)) # TF-IDF 행렬의 크기 확인
 
     # LDA 토픽 모델링
     lda_model = LatentDirichletAllocation(n_components=n_components, # topic 수
@@ -105,55 +149,28 @@ def do_lda(multiple_doc, max_features, n_components, n_words):
 
     feature_names = vectorizer.get_feature_names()  # 단어 집합. 1,000개의 단어 저장
 
-    # 토픽 추출
-    def get_topics(components, feature_names, n_words):
-        log.debug('extract topics')
-        topic_list = []
-        for idx, topic in enumerate(components):
-            print("Topic %d:" % (idx + 1), [feature_names[i] for i in topic.argsort()[:-n_words - 1:-1]])
-            topic = [feature_names[i] for i in topic.argsort()[:-n_words - 1:-1]]
-            topic_list.append(topic)
+    add_contour_text("LDA processing has been done.")
 
-        print(topic_list)
-        return topic_list
-
-    topic_list = get_topics(lda_model.components_, feature_names, n_words)
-
-    return topic_list
+    return lda_model.components_, feature_names
 
 
-# 토픽 추출 과정
-def extract_topics(file_list, max_features, n_components, n_words):
+# LDA
+def do_lda(file_list, max_features, n_components):
+    log.debug('do lda')
+    multiple_doc = text_preprocessing(file_list) # 텍스트 전처리
+    components, feature_names = lda(multiple_doc, max_features, n_components) # LDA
 
-    multiple_doc = []
-    count = 1
-    for file in file_list:
-        if file.endswith('_sentence.txt'):
-            print("----------------------------------------------------")
-            print("Start!")
-            print("----------------------------------------------------")
-            print("* txt file name [{0}] : {1}".format(count, file))
+    return components, feature_names
 
-            # 텍스트 전처리
-            doc = text_preprocessing(file)
-            multiple_doc = multiple_doc + doc
-            count += 1
 
-    print("---------------------------------------------")
-    print("Final document")
-    print("---------------------------------------------")
-    print(multiple_doc)
-    print("---------------------------------------------")
-    print("Final document //")
-    print("---------------------------------------------")
-
-    print("---------------------------------------------")
-    print("LDA Processing...")
-    print("---------------------------------------------")
-    topic_list = do_lda(multiple_doc, max_features, n_components, n_words)
-    print("---------------------------------------------")
-    print("LDA processing has been done.")
-    print("---------------------------------------------")
+# 토픽 추출
+def extract_topics(components, feature_names, n_words):
+    log.debug('extract topics')
+    topic_list = []
+    for idx, topic in enumerate(components):
+        #print("Topic %d:" % (idx + 1), [feature_names[i] for i in topic.argsort()[:-n_words - 1:-1]])
+        topic = "Topic %d:" % (idx + 1), [feature_names[i] for i in topic.argsort()[:-n_words - 1:-1]]
+        topic_list.append(str(topic))
 
     return topic_list
 

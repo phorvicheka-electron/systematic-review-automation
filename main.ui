@@ -37,7 +37,7 @@
   </widget>
   <widget class="QLineEdit" name="lineEdit">
    <property name="enabled">
-    <bool>true</bool>
+    <bool>false</bool>
    </property>
    <property name="geometry">
     <rect>
@@ -51,7 +51,7 @@
     <bool>false</bool>
    </property>
    <property name="text">
-    <string>path</string>
+    <string/>
    </property>
   </widget>
   <widget class="QTabWidget" name="tabWidget">
@@ -70,7 +70,7 @@
     <enum>QTabWidget::Rounded</enum>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab">
     <attribute name="title">
@@ -167,7 +167,7 @@
    <property name="geometry">
     <rect>
      <x>1150</x>
-     <y>120</y>
+     <y>156</y>
      <width>201</width>
      <height>131</height>
     </rect>
@@ -184,6 +184,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>1000</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="lineEdit_3">
     <property name="geometry">
@@ -193,6 +196,9 @@
       <width>81</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="text">
+     <string>5</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
@@ -243,6 +249,9 @@
       <height>20</height>
      </rect>
     </property>
+    <property name="text">
+     <string>7</string>
+    </property>
    </widget>
   </widget>
   <widget class="QPushButton" name="pushButton_2">
@@ -255,7 +264,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Start</string>
+    <string>Start Process</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="textEdit_2">
@@ -266,6 +275,19 @@
      <width>201</width>
      <height>321</height>
     </rect>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_3">
+   <property name="geometry">
+    <rect>
+     <x>1150</x>
+     <y>110</y>
+     <width>201</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Start LDA</string>
    </property>
   </widget>
  </widget>
