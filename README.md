@@ -41,10 +41,12 @@ python main.py
 
 ## Author
 ```
+SW Hwang, Yonsei University College of Medicine. Research Professor, since 2018.09 ~
 Mina Kim, Yonsei Univ. Researcher, since 2020.08 ~
 ```
 
 ## maintainer
 ```
+SW Hwang, arsenal@yonsei.ac.kr (2021.04. ~)
 Mina Kim, mmmmm70@yonsei.ac.kr (2021.06. ~)
 ```
