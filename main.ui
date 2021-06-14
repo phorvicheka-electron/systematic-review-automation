@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>1370</width>
-    <height>770</height>
+    <height>801</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -26,13 +26,13 @@
    <property name="geometry">
     <rect>
      <x>470</x>
-     <y>20</y>
-     <width>101</width>
+     <y>50</y>
+     <width>111</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>Upload</string>
+    <string>Select Directory</string>
    </property>
   </widget>
   <widget class="QLineEdit" name="lineEdit">
@@ -42,7 +42,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>20</y>
+     <y>50</y>
      <width>441</width>
      <height>25</height>
     </rect>
@@ -58,7 +58,7 @@
    <property name="geometry">
     <rect>
      <x>20</x>
-     <y>60</y>
+     <y>90</y>
      <width>1121</width>
      <height>691</height>
     </rect>
@@ -167,7 +167,7 @@
    <property name="geometry">
     <rect>
      <x>1150</x>
-     <y>156</y>
+     <y>186</y>
      <width>201</width>
      <height>131</height>
     </rect>
@@ -258,20 +258,20 @@
    <property name="geometry">
     <rect>
      <x>1150</x>
-     <y>80</y>
+     <y>110</y>
      <width>201</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>Start Process</string>
+    <string>Convert File</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="textEdit_2">
    <property name="geometry">
     <rect>
      <x>1150</x>
-     <y>430</y>
+     <y>450</y>
      <width>201</width>
      <height>321</height>
     </rect>
@@ -281,13 +281,45 @@
    <property name="geometry">
     <rect>
      <x>1150</x>
-     <y>110</y>
+     <y>140</y>
      <width>201</width>
      <height>27</height>
     </rect>
    </property>
    <property name="text">
     <string>Start LDA</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="lineEdit_5">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>20</y>
+     <width>441</width>
+     <height>25</height>
+    </rect>
+   </property>
+   <property name="mouseTracking">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="pushButton_4">
+   <property name="geometry">
+    <rect>
+     <x>470</x>
+     <y>20</y>
+     <width>111</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Upload File</string>
    </property>
   </widget>
  </widget>
