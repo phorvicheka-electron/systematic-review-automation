@@ -107,6 +107,7 @@ class WindowClass(QMainWindow, form_class):
     def set_text_lda(self, lda_result, topic_result):
         self.plainTextEdit_7.setPlainText(lda_result)
         self.plainTextEdit_8.setPlainText(topic_result)
+        self.tabWidget.setCurrentIndex(5)
         self.textEdit_2.append('Finish LDA process.')
 
 
