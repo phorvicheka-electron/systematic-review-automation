@@ -34,7 +34,7 @@ class WindowClass(QMainWindow, form_class):
         self.noFileMsg = QMessageBox()
         self.noFileMsg.setWindowTitle("주의")
         self.noFileMsg.setIcon(QMessageBox.Warning)
-        self.noFileMsg.setText("분석할 파일이 없습니다.")
+        self.noFileMsg.setText("디렉토리에 변환된 파일이 없습니다.")
         self.noFileMsg.setStandardButtons(QMessageBox.Yes)
         self.noFileMsg.setDefaultButton(QMessageBox.Yes)
 
