@@ -155,10 +155,4 @@ if __name__ == "__main__" :
     app = QApplication(sys.argv)
     myWindow = WindowClass()
     myWindow.show()
-    # # LDA
-    # components, feature_names = LDA.do_lda('C:/Users/Min A/Desktop/nuga', 1000, 5)
-    # # topics
-    # topic_list = LDA.extract_topics(components, feature_names, 7)
-    # print('\n'.join(LDA.print_lda_process), '\n'.join(topic_list))
-
     app.exec_()
