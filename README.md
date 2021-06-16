@@ -41,7 +41,7 @@ python main.py
 
 ## Author
 ```
-SW Hwang, Yonsei University College of Medicine. Research Professor, since 2018.09 ~
+Sangwon Hwang, Yonsei Univ. Research Professor, since 2018.09 ~
 Mina Kim, Yonsei Univ. Researcher, since 2020.08 ~
 ```
 
