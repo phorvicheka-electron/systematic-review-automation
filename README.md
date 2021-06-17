@@ -25,7 +25,7 @@ scikit-learn 0.24.2
 
 ## Install
 ```
-pip install -U git+https://git@github.com/Yonsei-Maist/systematic-review-automation.git
+git clone https://github.com/Yonsei-Maist/systematic-review-automation.git
 ```
 
 ## Install Apache Hadoop (If Windows)
