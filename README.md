@@ -42,11 +42,10 @@ python main.py
 ## Author
 ```
 Sangwon Hwang, Yonsei Univ. Research Professor, since 2018.09 ~
-Mina Kim, Yonsei Univ. Researcher, since 2020.08 ~
+Mina Kim, Yonsei Univ. Researcher, since 2020.08 ~ 2021.06
 ```
 
 ## maintainer
 ```
 SW Hwang, arsenal@yonsei.ac.kr (2021.04. ~)
-Mina Kim, mmmmm70@yonsei.ac.kr (2021.06. ~)
 ```
