@@ -48,4 +48,5 @@ Mina Kim, Yonsei Univ. Researcher, since 2020.08 ~ 2021.06
 ## maintainer
 ```
 SW Hwang, arsenal@yonsei.ac.kr (2021.04. ~)
+Mina Kim, mmmmm70@yonsei.ac.kr (2021.06. ~ 2021.06)
 ```
