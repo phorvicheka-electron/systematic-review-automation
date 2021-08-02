@@ -1,6 +1,8 @@
 import re
 import numpy as np
 from common import log, util
+import os
+import errno
 
 
 def convert_html_to_text(html_file):
@@ -55,7 +57,20 @@ def convert_html_to_text(html_file):
         if not collect_sentence and start_flag(each_line):
             collect_sentence = True
 
-    txt_file = html_file[:-4] + "txt"
+    # write to file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    head, tail = os.path.split(html_file[:-4])
+    filePath = os.path.join(dir_path, "out-text", tail.rsplit('.', 1)[0] + '.txt')
+    if not os.path.exists(os.path.dirname(filePath)):
+        try:
+            os.makedirs(os.path.dirname(filePath))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    log.debug('out-text - file name: ' + filePath)
+    txt_file = filePath
+    # txt_file = html_file[:-4] + "txt"
     save_file = open(txt_file, "w")
     np.savetxt(save_file, sentences, fmt='%s')
     save_file.close()

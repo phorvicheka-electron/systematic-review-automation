@@ -6,6 +6,7 @@ from pyspark.sql import SparkSession
 
 import common.log
 from common.util import *
+import errno
 
 
 # 모델 생성
@@ -56,7 +57,20 @@ def extract_sentence(file, text):
     common.log.debug('detect sentence')
     sentence_list = get_sentences(text)
 
-    txt_file = file[:-5] + "_sentence.txt"
+    # write to file
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    head, tail = os.path.split(file[:-5])
+    filePath = os.path.join(dir_path, "out-sentence", tail.rsplit('.', 1)[0] + '.txt')
+    if not os.path.exists(os.path.dirname(filePath)):
+        try:
+            os.makedirs(os.path.dirname(filePath))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    common.log.debug('out-sentence - file name: ' + filePath)
+    txt_file = filePath
+    #txt_file = file[:-5] + "_sentence.txt"
     save_file = open(txt_file, "w")
     np.savetxt(save_file, sentence_list, fmt='%s')
     save_file.close()

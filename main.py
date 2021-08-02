@@ -4,6 +4,7 @@ import glob
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+import errno
 
 from common import util
 from process import html_to_text, pdf_to_html, detec_sentence, LDA
@@ -42,14 +43,15 @@ class WindowClass(QMainWindow, form_class):
         self.pushButton_4.clicked.connect(self.set_file_path)
         self.pushButton_2.clicked.connect(self.start_process)
         self.pushButton_3.clicked.connect(self.start_lda_process)
-
+        self.pushButton_1.clicked.connect(self.start_process_convert)
 
     def set_log(self, text):
         self.textEdit_2.append(text)
 
     # 폳더 경로 정하기
     def set_directory_path(self):
-        directory = QFileDialog.getExistingDirectory(self, 'Select Directory', './')
+        directory = QFileDialog.getExistingDirectory(
+            self, 'Select Directory', './')
         if directory:
             self.lineEdit.setText(directory)
 
@@ -70,6 +72,29 @@ class WindowClass(QMainWindow, form_class):
         else:
             self.fileMsg.exec_()
 
+    def start_process_convert(self):
+        directory = self.lineEdit.text()
+        if directory != '':
+            count = 0
+            self.textEdit_2.append('Start conversion processing ....')
+            self.convert = []
+            for filename in os.listdir(directory):
+                if filename.endswith(".pdf"):
+                    file_path = os.path.join(directory, filename)
+                    if(file_path != ''):
+                        count = count + 1
+                        self.textEdit_2.append(str(count))
+                        self.convert.append(ConvertThread(file_path))
+                    else:
+                        self.fileMsg.exec_()
+                else:
+                    continue
+            for thread in self.convert:
+                thread.finished.connect(self.set_text_convert)
+                thread.start()
+                thread.wait()
+        else:
+            self.dirMsg.exec_()
 
     def start_lda_process(self):
         file_path = self.lineEdit.text()
@@ -87,12 +112,12 @@ class WindowClass(QMainWindow, form_class):
                 n_components = int(self.lineEdit_3.text())
                 n_words = int(self.lineEdit_4.text())
                 self.textEdit_2.append('Start LDA processing ....')
-                self.lda = LDAThread(file_list, max_features, n_components, n_words)
+                self.lda = LDAThread(
+                    file_list, max_features, n_components, n_words)
                 self.lda.finished.connect(self.set_text_lda)
                 self.lda.start()
         else:
             self.dirMsg.exec_()
-
 
     @pyqtSlot(str, str, str)
     def set_text_convert(self, html_data, text_data, sentence_date):
@@ -145,13 +170,16 @@ class LDAThread(QThread):
 
     def run(self):
         # LDA
-        components, feature_names = LDA.do_lda(self.file_list, self.max_features, self.n_components)
+        components, feature_names = LDA.do_lda(
+            self.file_list, self.max_features, self.n_components)
         # topics
-        topic_list = LDA.extract_topics(components, feature_names, self.n_words)
-        self.finished.emit('\n'.join(LDA.print_lda_process), '\n'.join(topic_list))
+        topic_list = LDA.extract_topics(
+            components, feature_names, self.n_words)
+        self.finished.emit('\n'.join(LDA.print_lda_process),
+                           '\n'.join(topic_list))
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
     app = QApplication(sys.argv)
     myWindow = WindowClass()
     myWindow.show()

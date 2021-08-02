@@ -5,3 +5,7 @@ __pycache__
 migrations
 venv/
 .venv/
+out-html
+out-sentence
+out-text
+.vscode

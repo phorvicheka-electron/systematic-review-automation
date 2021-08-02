@@ -1,15 +1,28 @@
 import pdfbox
 
 from common import log
-
+import os
+import errno
 
 def convert_pdf_to_html(file):
     log.debug("convert pdf to html")
     p = pdfbox.PDFBox()
-    p.extract_text(file, html=True)
+
+    dir_path = os.path.dirname(os.path.realpath(__file__))
+    head, tail = os.path.split(file)
+    filePath = os.path.join(dir_path, "out-html", tail.rsplit('.', 1)[0] + '.html')
+    if not os.path.exists(os.path.dirname(filePath)):
+        try:
+            os.makedirs(os.path.dirname(filePath))
+        except OSError as exc:  # Guard against race condition
+            if exc.errno != errno.EEXIST:
+                raise
+
+    p.extract_text(file, output_path=filePath, html=True)
     path = file.split('.pdf')
 
-    return path[0]+".html"
+    # return path[0]+".html"
+    return filePath
 
 # def convert_pdf_to_html(directory_path):
 #     log.debug("convert_pdf_to_html")
